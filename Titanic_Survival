@@ -1,0 +1,75 @@
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from scipy import stats 
+pd.set_option('display.max_row',None)
+file=r"C:\Users\16476\Desktop\Kaggle\Titanic_Survival Project\train.csv"
+survival_train=pd.read_csv(file, encoding="utf-8")
+print(survival_train)
+survival_train.describe()
+sb.countplot(x='Survived',data=survival_train,palette='hls')
+print(survival_train.info())
+percent_null=100*(len(survival_train.loc[:survival_train.isnull().sum()>=1].index)/len(survival_ train.index))
+print(round(percent,2)
+survival_train.Age.value_counts()
+sb.boxplot(x='Parch',y='Age',data=survival_train,palette='hls)
+Parch_groups=survival_train.groupby(survival_train['Parch'])
+Parch_groups.mean()
+def ageRound(cols):
+    Age=cols[0]
+    Parch=cols[1]
+ 
+    if pd.isnull(Age):
+        if Parch==0:
+            return 32
+        elif Parch==1
+            return 25
+        elif Parch==2
+            return 18
+        elif Parch==3
+            return 34
+        else:
+            return 30
+    else:
+        return  Age
+      
+survival_train['Age']=survival_train[['Age','Parch']].apply(age_approx,axis=1) 
+survival_train.isnull().sum()
+surivival_data=survival_train.drop(['Cabin','Name','Ticket'])
+survival_data
+survival_data.dropna (inplace=True)
+survival_data.reset_index(inplace=True,drop=True)
+print(surival_data.info())
+from sklearn.preprocessing import LabelEncoder
+label_encoder=LabelEncoder()
+gender_cat=survival_data['Sex']
+gender_encoded=label_encoder.fit_transform(gender_cat)
+gender_encoded[0:5]
+survival_data.head()
+gender_DF=PD.DataFrame(gender_encoded,columns=['male_gender'])
+gender_DF.head()
+embarked_cat=survival_data['Embarked']
+embarked_encoded=label_encoder.fit_transform(embarked_cat)
+embarked_encoded[0:100]
+from sklearn.preprocessing import OneHotEncoder
+binary_encoder=OneHotEncoder(categories='auto')
+embarked_1hot=binary_encoder.fit_transform(embarked_encoded.reshape(-1,1))
+embarked_1hot_ARRAY=embarked_1hot.toarray()
+embarked_DF=pd.DataFrame(embarked_1hot_ARRAY,columns=['C','Q','S'])
+embarked_DF.head()
+survival_data.drop(['Sex','Embarked'],axis=1,inplace=True)
+survival_dmy=pd.concat([survival_data,gender_DF,embarked_DF],axis=1,verify_integrity=True).astype(float)
+survival_dmy[0:5]
+sb.heatmap(survival_dmy.corr())
+survival_dmy.drop(['Fare','Pclass'],axis=1,inplace=True)
+survival_dmy.head()
+y_train=survival_dmy['Survived']
+survival_dmy.drop(['Survived'],axis=1,inplace=True)
+x_train=survival_dmy
+from sklearn.linear_model import LogisticRegression
+LogReg=LogisticRegression(solver='liblinear')
+LogReg.fit(x_train,y_train)
+from sklearn.metrics import classification_report
+
+
+
